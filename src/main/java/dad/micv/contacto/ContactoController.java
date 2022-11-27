@@ -1,7 +1,9 @@
 package dad.micv.contacto;
 
 import dad.micv.CV;
+import dad.micv.model.Email;
 import dad.micv.model.Telefono;
+import dad.micv.model.Web;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -49,19 +51,45 @@ public class ContactoController {
     }
 
     private void addEmail(ActionEvent event) {
+        AddEmailDialog addEmailDialog = new AddEmailDialog();
+        Optional<Email> result = addEmailDialog.showAndWait();
 
+        result.ifPresent(email -> {
+            cv.getContacto().getEmails().add(email);
+        });
     }
 
     private void removeEmail(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("¿Eliminar?");
 
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            int index = view.getEmailTable().getSelectionModel().getSelectedIndex();
+            if (index != -1)
+                cv.getContacto().getEmails().remove(index);
+        }
     }
 
     private void addWeb(ActionEvent event) {
+        AddWebDialog addWebDialog = new AddWebDialog();
+        Optional<Web> result = addWebDialog.showAndWait();
 
+        result.ifPresent(web -> {
+            cv.getContacto().getWebs().add(web);
+        });
     }
 
     private void removeWeb(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("¿Eliminar?");
 
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            int index = view.getUrlTable().getSelectionModel().getSelectedIndex();
+            if (index != -1)
+                cv.getContacto().getWebs().remove(index);
+        }
     }
 
     public void loadCV(CV cv) {

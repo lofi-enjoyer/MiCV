@@ -1,6 +1,7 @@
 package dad.micv.contacto;
 
 import dad.micv.MiCV;
+import dad.micv.model.Email;
 import dad.micv.model.Telefono;
 import dad.micv.model.TipoTelefono;
 import javafx.beans.property.ObjectProperty;
@@ -12,22 +13,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 
-public class AddPhoneDialog extends Dialog<Telefono> {
+public class AddEmailDialog extends Dialog<Email> {
 
     private Parent root;
 
     @FXML
-    TextField phoneTextField;
+    TextField emailTextField;
 
-    @FXML
-    ComboBox<TipoTelefono> typeComboBox;
+    private StringProperty emailProperty = new SimpleStringProperty();
 
-    private StringProperty phoneProperty = new SimpleStringProperty();
-    private ObjectProperty<TipoTelefono> typeProperty = new SimpleObjectProperty<>(TipoTelefono.DOMICILIO);
-
-    public AddPhoneDialog() {
+    public AddEmailDialog() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(MiCV.class.getResource("AddPhone.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(MiCV.class.getResource("AddEmail.fxml"));
             fxmlLoader.setController(this);
             this.root = fxmlLoader.load();
         } catch (Exception e) {
@@ -36,26 +33,22 @@ public class AddPhoneDialog extends Dialog<Telefono> {
 
         ButtonType addButtonType = new ButtonType("Añadir", ButtonBar.ButtonData.OK_DONE);
 
-        setTitle("Añadir teléfono");
+        setTitle("Añadir email");
         getDialogPane().setContent(root);
         getDialogPane().getButtonTypes().setAll(addButtonType, ButtonType.CANCEL);
 
         setResultConverter(this::getConverter);
 
-        typeComboBox.getItems().setAll(TipoTelefono.values());
-
-        phoneProperty.bind(phoneTextField.textProperty());
-        typeProperty.bind(typeComboBox.getSelectionModel().selectedItemProperty());
+        emailProperty.bind(emailTextField.textProperty());
     }
 
-    private Telefono getConverter(ButtonType buttonType) {
+    private Email getConverter(ButtonType buttonType) {
         if (buttonType.getButtonData() != ButtonBar.ButtonData.OK_DONE)
             return null;
 
-        Telefono telefono = new Telefono();
-        telefono.setNumero(phoneProperty.get());
-        telefono.setTipo(typeProperty.get());
-        return telefono;
+        Email email = new Email();
+        email.setDireccion(emailProperty.get());
+        return email;
     }
 
 }
