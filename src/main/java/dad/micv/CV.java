@@ -4,6 +4,7 @@ import dad.micv.model.*;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class CV {
@@ -17,9 +18,9 @@ public class CV {
     public CV() {
         this.personal = new SimpleObjectProperty<>(new Personal());
         this.contacto = new SimpleObjectProperty<>(new Contacto());
-        this.formacion = new SimpleListProperty<>();
-        this.experiencias = new SimpleListProperty<>();
-        this.habilidades = new SimpleListProperty<>();
+        this.formacion = FXCollections.observableArrayList();
+        this.experiencias = FXCollections.observableArrayList();
+        this.habilidades = FXCollections.observableArrayList();
     }
 
     public Personal getPersonal() {

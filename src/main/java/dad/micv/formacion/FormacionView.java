@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -35,6 +36,12 @@ public class FormacionView {
     @FXML
     TableColumn<Titulo, String> organColumn;
 
+    @FXML
+    Button addButton;
+
+    @FXML
+    Button removeButton;
+
     public FormacionView() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(MiCV.class.getResource("Formacion.fxml"));
@@ -52,6 +59,14 @@ public class FormacionView {
 
     public TableView<Titulo> getFormacionTable() {
         return formacionTable;
+    }
+
+    public Button getAddButton() {
+        return addButton;
+    }
+
+    public Button getRemoveButton() {
+        return removeButton;
     }
 
     public Parent getRoot() {
