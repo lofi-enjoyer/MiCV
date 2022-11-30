@@ -6,6 +6,7 @@ import dad.micv.model.Titulo;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
@@ -30,6 +31,12 @@ public class ExperienciaView {
     @FXML
     TableColumn<Experiencia, String> empleColumn;
 
+    @FXML
+    Button addButton;
+
+    @FXML
+    Button removeButton;
+
     public ExperienciaView() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(MiCV.class.getResource("Experiencia.fxml"));
@@ -43,6 +50,14 @@ public class ExperienciaView {
         untilColumn.setCellValueFactory(experiencia -> experiencia.getValue().hastaProperty());
         denomColumn.setCellValueFactory(experiencia -> experiencia.getValue().denominacionProperty());
         empleColumn.setCellValueFactory(experiencia -> experiencia.getValue().empleadorProperty());
+    }
+
+    public Button getAddButton() {
+        return addButton;
+    }
+
+    public Button getRemoveButton() {
+        return removeButton;
     }
 
     public TableView<Experiencia> getExperTable() {

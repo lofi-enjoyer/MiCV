@@ -24,11 +24,11 @@
         </rowConstraints>
          <children>
             <Label text="Denominacion" />
-            <Label text="Organizador" GridPane.rowIndex="1" />
+            <Label text="Empleador" GridPane.rowIndex="1" />
             <Label text="Desde" GridPane.rowIndex="2" />
             <Label text="Hasta" GridPane.rowIndex="3" />
             <TextField fx:id="denomTextField" GridPane.columnIndex="1" />
-            <TextField fx:id="organTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="empleTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <DatePicker fx:id="sinceDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <DatePicker fx:id="untilDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="3" />
          </children>

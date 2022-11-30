@@ -1,5 +1,7 @@
 package dad.micv;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import dad.micv.conocimientos.ConocimientosController;
 import dad.micv.contacto.ContactoController;
 import dad.micv.experiencia.ExperienciaController;
@@ -9,11 +11,15 @@ import dad.micv.model.Pais;
 import dad.micv.personal.PersonalController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.hildan.fxgson.FxGson;
+import org.hildan.fxgson.FxGsonBuilder;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,8 +76,48 @@ public class RootController {
         view.getExperienciaTab().setContent(experienciaController.getView().getRoot());
         view.getConocimientosTab().setContent(conocimientosController.getView().getRoot());
 
+        view.getNewMenuItem().setOnAction(event -> loadCV(new CV()));
+        view.getOpenMenuItem().setOnAction(event -> loadCVFromFile());
+
         this.cv = new CV();
         loadCV(cv);
+    }
+
+    public void loadCVFromFile() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Abrir");
+        fileChooser.setInitialDirectory(new File("."));
+
+        File file = fileChooser.showOpenDialog(stage);
+        if (file == null)
+            return;
+
+        Gson gson = FxGson.fullBuilder()
+                .setPrettyPrinting()
+                .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
+                .create();
+
+        try {
+            unloadCV();
+            this.cv = gson.fromJson(new FileReader(file), CV.class);
+            loadCV(cv);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void saveCVToFile(String file) {
+        Gson gson = FxGson.fullBuilder()
+                .setPrettyPrinting()
+                .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
+                .create();
+
+        String json = gson.toJson(cv, CV.class);
+        try {
+            Files.writeString(new File(file).toPath(), json, StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void loadCV(CV cv) {
